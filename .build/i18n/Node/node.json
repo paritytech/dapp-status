@@ -1,0 +1,58 @@
+[
+  {
+    "id": "status.status.title.bestBlock",
+    "defaultMessage": "best block"
+  },
+  {
+    "id": "status.status.title.peers",
+    "defaultMessage": "peers"
+  },
+  {
+    "id": "status.status.title.hashRate",
+    "defaultMessage": "hash rate"
+  },
+  {
+    "id": "status.status.hashrate",
+    "defaultMessage": "{hashrate} H/s"
+  },
+  {
+    "id": "status.status.title.node",
+    "defaultMessage": "Node"
+  },
+  {
+    "id": "status.status.title.network",
+    "defaultMessage": "network settings"
+  },
+  {
+    "id": "status.status.input.chain",
+    "defaultMessage": "chain"
+  },
+  {
+    "id": "status.status.input.rpcEnabled",
+    "defaultMessage": "rpc enabled"
+  },
+  {
+    "id": "status.status.input.yes",
+    "defaultMessage": "yes"
+  },
+  {
+    "id": "status.status.input.no",
+    "defaultMessage": "no"
+  },
+  {
+    "id": "status.status.input.port",
+    "defaultMessage": "network port"
+  },
+  {
+    "id": "status.status.input.rpcInterface",
+    "defaultMessage": "rpc interface"
+  },
+  {
+    "id": "status.status.input.rpcPort",
+    "defaultMessage": "rpc port"
+  },
+  {
+    "id": "status.status.input.enode",
+    "defaultMessage": "enode"
+  }
+]

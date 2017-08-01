@@ -1,0 +1,10 @@
+[
+  {
+    "id": "status.debug.title",
+    "defaultMessage": "Node Logs"
+  },
+  {
+    "id": "status.debug.reverse",
+    "defaultMessage": "Reverse Order"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "peers.acceptNonReserved.label",
+    "defaultMessage": "Accept non-reserved"
+  },
+  {
+    "id": "peers.dropNonReserved.label",
+    "defaultMessage": "Drop non-reserved"
+  },
+  {
+    "id": "peers.addReserved.label",
+    "defaultMessage": "Add reserved"
+  },
+  {
+    "id": "peers.removeReserved.label",
+    "defaultMessage": "Remove reserved"
+  },
+  {
+    "id": "status.peers.title",
+    "defaultMessage": "network peers"
+  },
+  {
+    "id": "status.peers.table.header.id",
+    "defaultMessage": "ID"
+  },
+  {
+    "id": "status.peers.table.header.remoteAddress",
+    "defaultMessage": "Remote Address"
+  },
+  {
+    "id": "status.peers.table.header.name",
+    "defaultMessage": "Name"
+  },
+  {
+    "id": "status.peers.table.header.ethHeader",
+    "defaultMessage": "Header (ETH)"
+  },
+  {
+    "id": "status.peers.table.header.ethDiff",
+    "defaultMessage": "Difficulty (ETH)"
+  },
+  {
+    "id": "status.peers.table.header.caps",
+    "defaultMessage": "Capabilities"
+  },
+  {
+    "id": "peers.form.label",
+    "defaultMessage": "Peer enode URL"
+  },
+  {
+    "id": "peers.form.action.label",
+    "defaultMessage": "{add, select, true {Add} false {}}{remove, select, true {Remove} false {}}"
+  },
+  {
+    "id": "peers.form.cancel.label",
+    "defaultMessage": "Cancel"
+  },
+  {
+    "id": "peers.acceptNonReservedPeers.success",
+    "defaultMessage": "Accepting non-reserved peers"
+  },
+  {
+    "id": "peers.dropNonReservedPeers.success",
+    "defaultMessage": "Dropping non-reserved peers"
+  },
+  {
+    "id": "peers.form.action.success",
+    "defaultMessage": "Successfully {add, select, true {added} false {}}{remove, select, true {removed} false {}} a reserved peer"
+  }
+]

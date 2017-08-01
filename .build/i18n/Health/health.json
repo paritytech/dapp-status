@@ -1,0 +1,26 @@
+[
+  {
+    "id": "status.health.yes",
+    "defaultMessage": "yes"
+  },
+  {
+    "id": "status.health.no",
+    "defaultMessage": "no"
+  },
+  {
+    "id": "status.health.title",
+    "defaultMessage": "Node Health"
+  },
+  {
+    "id": "status.health.sync",
+    "defaultMessage": "Chain Synchronized"
+  },
+  {
+    "id": "status.health.peers",
+    "defaultMessage": "Connected Peers"
+  },
+  {
+    "id": "status.health.time",
+    "defaultMessage": "Time Synchronized"
+  }
+]

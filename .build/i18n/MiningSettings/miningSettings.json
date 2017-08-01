@@ -1,0 +1,38 @@
+[
+  {
+    "id": "status.miningSettings.title",
+    "defaultMessage": "mining settings"
+  },
+  {
+    "id": "status.miningSettings.input.author.label",
+    "defaultMessage": "author"
+  },
+  {
+    "id": "status.miningSettings.input.author.hint",
+    "defaultMessage": "the mining author"
+  },
+  {
+    "id": "status.miningSettings.input.extradata.label",
+    "defaultMessage": "extradata"
+  },
+  {
+    "id": "status.miningSettings.input.extradata.hint",
+    "defaultMessage": "extra data for mined blocks"
+  },
+  {
+    "id": "status.miningSettings.input.gasPrice.label",
+    "defaultMessage": "minimal gas price"
+  },
+  {
+    "id": "status.miningSettings.input.gasPrice.hint",
+    "defaultMessage": "the minimum gas price for mining"
+  },
+  {
+    "id": "status.miningSettings.input.gasFloor.label",
+    "defaultMessage": "gas floor target"
+  },
+  {
+    "id": "status.miningSettings.input.gasFloor.hint",
+    "defaultMessage": "the gas floor target for mining"
+  }
+]
