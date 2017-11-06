@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { Container } from '@parity/ui';
-import { PauseIcon, PlayIcon, ReorderIcon, ReplayIcon } from '@parity/ui/Icons';
+import { PauseIcon, PlayIcon, ReorderIcon, ReplayIcon } from '@parity/ui/lib/Icons';
 
 import Logs from './Logs';
 import Toggle from './Toggle';

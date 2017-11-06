@@ -20,8 +20,8 @@ import { FormattedMessage } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { showSnackbar } from '@parity/shared/redux/providers/snackbarActions';
-import { newError } from '@parity/shared/redux/actions';
+import { showSnackbar } from '@parity/shared/lib/redux/providers/snackbarActions';
+import { newError } from '@parity/shared/lib/redux/actions';
 import { Button, Container, ContainerTitle, Input, ScrollableText, ShortenedHash } from '@parity/ui';
 
 import styles from './peers.css';
