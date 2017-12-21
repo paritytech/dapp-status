@@ -14,29 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import ReactDOM from 'react-dom';
 import React from 'react';
-import { Route, Router, hashHistory } from 'react-router';
+import ReactDOM from 'react-dom';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
-import ContractInstances from '@parity/shared/lib/contracts';
-import { initStore } from '@parity/shared/lib/redux';
-import ContextProvider from '@parity/ui/lib/ContextProvider';
-
-import api from './api';
-import Status from './status';
-
-ContractInstances.get(api);
-
-const store = initStore(api, hashHistory);
-
-ReactDOM.render(
-  <ContextProvider api={ api } store={ store }>
-    <Router history={ hashHistory }>
-      <Route path='/' component={ Status } />
-    </Router>
-  </ContextProvider>,
-  document.querySelector('#container')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
+registerServiceWorker();

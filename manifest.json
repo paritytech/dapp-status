@@ -1,8 +1,9 @@
 {
   "id": "dapp-status",
-  "name": "dapp-status",
-  "description": "Dapp for Parity",
+  "name": "Node Status",
+  "description": "Check the status of your Parity node",
   "author": "Parity Team <admin@parity.io>",
-  "version": "1.99.99",
-  "iconUrl": ""
+  "version": "VERSION",
+  "iconUrl": "icon.png",
+  "localUrl": "http://localhost:3001"
 }
