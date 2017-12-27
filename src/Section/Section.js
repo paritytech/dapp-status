@@ -15,18 +15,15 @@
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ContextProvider from '@parity/ui/lib/ContextProvider';
-import 'semantic-ui-css/semantic.min.css';
+import PropTypes from 'prop-types';
 
-import api from './api';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 
-ReactDOM.render(
-  <ContextProvider api={api}>
-    <App />
-  </ContextProvider>,
-  document.getElementById('root')
+const Section = ({ children, title }) => (
+  <div>
+    <Header as="h3">{title}</Header>
+    {children}
+  </div>
 );
-registerServiceWorker();
+
+export default Section;
