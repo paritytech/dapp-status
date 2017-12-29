@@ -18,18 +18,40 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import styles from './Field.css';
 
 class Input extends PureComponent {
+  static defaultProps = {
+    showCopyButton: true
+  };
+
+  static propTypes = {
+    showCopyButton: PropTypes.bool
+  };
+
   render() {
-    const { label, value, ...rest } = this.props;
+    const {
+      action,
+      error,
+      label,
+      showCopyButton,
+      value,
+      width,
+      ...rest
+    } = this.props;
     return (
-      <Form.Field>
+      <Form.Field width={width}>
+        {error && (
+          <Label basic color="red" pointing="below">
+            {error}
+          </Label>
+        )}
         <label>{label}</label>
         <SemanticInput
-          action={{ icon: 'copy' }}
+          action={action || (showCopyButton && { icon: 'copy' })}
           value={value || ''} // Controlled component
           {...rest}
         />

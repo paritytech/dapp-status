@@ -24,6 +24,7 @@ import Page from '@parity/ui/lib/Page';
 import Mining from './Mining';
 import Network from './Network';
 import NodeHealth from './NodeHealth';
+import Peers from './Peers';
 import styles from './App.css';
 
 class App extends Component {
@@ -46,6 +47,7 @@ class App extends Component {
           <Mining />
           <Network />
         </Segment.Group>
+        <Peers />
       </Page>
     );
   }

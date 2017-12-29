@@ -19,13 +19,10 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import formatNumber from 'format-number';
 
 import Field from '../components/Field';
 import Section from '../components/Section';
 import styles from './Network.css';
-
-const toNiceNumber = formatNumber();
 
 class Network extends Component {
   static propTypes = {
@@ -40,7 +37,7 @@ class Network extends Component {
       rpcSettingsStore: { rpcSettings },
       intl: { formatMessage }
     } = this.props;
-    console.log(this.props);
+
     return (
       <Section
         title={
