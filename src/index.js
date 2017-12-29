@@ -18,24 +18,37 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider as MobxProvider } from 'mobx-react';
 import ContextProvider from '@parity/ui/lib/ContextProvider';
+import {
+  ChainStore,
+  CoinbaseStore,
+  DefaultExtraDataStore,
+  EnodeStore,
+  ExtraDataStore,
+  GasFloorTargetStore,
+  MinGasPriceStore,
+  NetPeersStore,
+  NetPortStore,
+  NodeHealthStore,
+  RpcSettingsStore
+} from '@parity/mobx/lib';
 import 'semantic-ui-css/semantic.min.css';
-
-import CoinbaseStore from '@parity/mobx/lib/other/CoinbaseStore';
-import ExtraDataStore from '@parity/mobx/lib/mining/ExtraDataStore';
-import GasFloorTargetStore from '@parity/mobx/lib/mining/GasFloorTargetStore';
-import MinGasPriceStore from '@parity/mobx/lib/mining/MinGasPriceStore';
-import NodeHealthStore from '@parity/mobx/lib/node/NodeHealthStore';
 
 import api from './api';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 const rootStore = {
+  chainStore: ChainStore.get(api),
   coinbaseStore: CoinbaseStore.get(api),
+  enodeStore: EnodeStore.get(api),
   extraDataStore: ExtraDataStore.get(api),
+  defaultExtraDataStore: DefaultExtraDataStore.get(api),
   gasFloorTargetStore: GasFloorTargetStore.get(api),
   minGasPriceStore: MinGasPriceStore.get(api),
-  nodeHealthStore: NodeHealthStore.get(api)
+  netPeersStore: NetPeersStore.get(api),
+  netPortStore: NetPortStore.get(api),
+  nodeHealthStore: NodeHealthStore.get(api),
+  rpcSettingsStore: RpcSettingsStore.get(api)
 };
 
 ReactDOM.render(

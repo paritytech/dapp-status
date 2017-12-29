@@ -23,7 +23,7 @@ import StatusIndicator from '@parity/ui/lib/StatusIndicator';
 import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 import { FormattedMessage } from 'react-intl';
 
-import Section from '../Section';
+import Section from '../components/Section';
 import styles from './NodeHealth.css';
 
 class NodeHealth extends Component {

@@ -18,11 +18,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
+import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import Page from '@parity/ui/lib/Page';
 
 import Mining from './Mining';
+import Network from './Network';
 import NodeHealth from './NodeHealth';
-import './App.css';
+import styles from './App.css';
 
 class App extends Component {
   static contextTypes = {
@@ -40,7 +42,10 @@ class App extends Component {
         }
       >
         <NodeHealth />
-        <Mining />
+        <Segment.Group horizontal>
+          <Mining />
+          <Network />
+        </Segment.Group>
       </Page>
     );
   }

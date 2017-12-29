@@ -18,14 +18,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 
 import styles from './Section.css';
 
-const Section = ({ children, title }) => (
-  <div className={styles.section}>
+const Section = ({ children, title, ...rest }) => (
+  <Segment padded {...rest}>
     <Header as="h3">{title}</Header>
     {children}
-  </div>
+  </Segment>
 );
 
 export default Section;

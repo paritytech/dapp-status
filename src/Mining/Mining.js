@@ -18,20 +18,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
-import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 import { FormattedMessage } from 'react-intl';
 import formatNumber from 'format-number';
 
 import decodeExtraData from './decodeExtraData';
-import Section from '../Section';
+import Field from '../components/Field';
+import Section from '../components/Section';
 import styles from './Mining.css';
 
 const toNiceNumber = formatNumber();
 
 class Mining extends Component {
   render() {
-    console.log(this.props);
     const {
       extraDataStore,
       gasFloorTargetStore,
@@ -43,47 +41,38 @@ class Mining extends Component {
         title={
           <FormattedMessage
             id="dapp.status.mining.title"
-            defaultMessage="Mining &amp; Network Settings"
+            defaultMessage="Mining Settings"
           />
         }
       >
         <Form>
-          <Form.Field>
-            <label>
+          <Field
+            label={
               <FormattedMessage
                 id="dapp.status.mining.extraDataLabel"
                 defaultMessage="Extra Data"
               />
-            </label>
-            <Input
-              action={{ icon: 'copy' }}
-              value={decodeExtraData(extraDataStore.extraData)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>
+            }
+            value={decodeExtraData(extraDataStore.extraData)}
+          />
+          <Field
+            label={
               <FormattedMessage
                 id="dapp.status.mining.minGasPriceLabel"
                 defaultMessage="Minimum Gas Price"
               />
-            </label>
-            <Input
-              action={{ icon: 'copy' }}
-              value={toNiceNumber(minGasPriceStore.minGasPrice)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>
+            }
+            value={toNiceNumber(minGasPriceStore.minGasPrice)}
+          />
+          <Field
+            label={
               <FormattedMessage
                 id="dapp.status.mining.gasFloorTargetLabel"
                 defaultMessage="Gas Floor Target"
               />
-            </label>
-            <Input
-              action={{ icon: 'copy' }}
-              value={toNiceNumber(gasFloorTargetStore.gasFloorTarget)}
-            />
-          </Form.Field>
+            }
+            value={toNiceNumber(gasFloorTargetStore.gasFloorTarget)}
+          />
         </Form>
       </Section>
     );
