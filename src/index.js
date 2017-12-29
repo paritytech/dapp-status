@@ -16,16 +16,33 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider as MobxProvider } from 'mobx-react';
 import ContextProvider from '@parity/ui/lib/ContextProvider';
 import 'semantic-ui-css/semantic.min.css';
+
+import CoinbaseStore from '@parity/mobx/lib/other/CoinbaseStore';
+import ExtraDataStore from '@parity/mobx/lib/mining/ExtraDataStore';
+import GasFloorTargetStore from '@parity/mobx/lib/mining/GasFloorTargetStore';
+import MinGasPriceStore from '@parity/mobx/lib/mining/MinGasPriceStore';
+import NodeHealthStore from '@parity/mobx/lib/node/NodeHealthStore';
 
 import api from './api';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+const rootStore = {
+  coinbaseStore: CoinbaseStore.get(api),
+  extraDataStore: ExtraDataStore.get(api),
+  gasFloorTargetStore: GasFloorTargetStore.get(api),
+  minGasPriceStore: MinGasPriceStore.get(api),
+  nodeHealthStore: NodeHealthStore.get(api)
+};
+
 ReactDOM.render(
   <ContextProvider api={api}>
-    <App />
+    <MobxProvider {...rootStore}>
+      <App />
+    </MobxProvider>
   </ContextProvider>,
   document.getElementById('root')
 );

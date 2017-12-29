@@ -16,12 +16,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
-import NodeHealthStore, {
-  STATUS_OK,
-  STATUS_BAD
-} from '@parity/mobx/lib/node/NodeHealthStore';
+import { STATUS_OK, STATUS_BAD } from '@parity/mobx/lib/node/NodeHealthStore';
 import StatusIndicator from '@parity/ui/lib/StatusIndicator';
 import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 import { FormattedMessage } from 'react-intl';
@@ -30,19 +27,14 @@ import Section from '../Section';
 import styles from './NodeHealth.css';
 
 class NodeHealth extends Component {
-  static contextTypes = {
-    api: PropTypes.object.isRequired
-  };
-
-  nodeHealthStore = NodeHealthStore.get(this.context.api);
-
   render() {
-    const { health, overall } = this.nodeHealthStore;
+    const { nodeHealthStore: { health, overall } } = this.props;
+
     return (
       <Section
         title={
           <FormattedMessage
-            id="dapp.status.nodeHealth"
+            id="dapp.status.nodeHealthTitle"
             defaultMessage="Node Health"
           />
         }
@@ -113,7 +105,10 @@ class NodeHealth extends Component {
           </Statistic>
           <Statistic>
             <Statistic.Value>
-              <StatusIndicator status={overall ? overall.status : STATUS_BAD} />
+              <StatusIndicator
+                id="overall"
+                status={overall ? overall.status : STATUS_BAD}
+              />
             </Statistic.Value>
             <Statistic.Label>
               <FormattedMessage
@@ -128,4 +123,4 @@ class NodeHealth extends Component {
   }
 }
 
-export default observer(NodeHealth);
+export default inject('nodeHealthStore')(observer(NodeHealth));

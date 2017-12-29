@@ -14,36 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
-import Page from '@parity/ui/lib/Page';
+import { decodeExtraData } from './decodeExtraData';
 
-import Mining from './Mining';
-import NodeHealth from './NodeHealth';
-import './App.css';
+describe('views/Status/components/MiningSettings/decodeExtraData', () => {
+  describe('EXTRA DATA', () => {
+    const str = 'parity/1.0.0/1.0.0-beta2';
+    const encoded = '0xd783010000867061726974798b312e302e302d6265746132';
 
-class App extends Component {
-  static contextTypes = {
-    api: PropTypes.object.isRequired
-  };
-
-  render() {
-    return (
-      <Page
-        title={
-          <FormattedMessage
-            id="dapp.status.title"
-            defaultMessage="Information about your node"
-          />
-        }
-      >
-        <NodeHealth />
-        <Mining />
-      </Page>
-    );
-  }
-}
-
-export default observer(App);
+    it('should decode encoded to str', () => {
+      expect(decodeExtraData(encoded)).to.equal(str);
+    });
+  });
+});

@@ -14,36 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
-import Page from '@parity/ui/lib/Page';
+import rlp from 'rlp';
 
-import Mining from './Mining';
-import NodeHealth from './NodeHealth';
-import './App.css';
+const decodeExtraData = str => {
+  if (!str) return '';
+  try {
+    // Try decoding as RLP
+    const decoded = rlp.decode(str);
+    const v = decoded[0];
 
-class App extends Component {
-  static contextTypes = {
-    api: PropTypes.object.isRequired
-  };
-
-  render() {
-    return (
-      <Page
-        title={
-          <FormattedMessage
-            id="dapp.status.title"
-            defaultMessage="Information about your node"
-          />
-        }
-      >
-        <NodeHealth />
-        <Mining />
-      </Page>
-    );
+    decoded[0] = decoded[1];
+    decoded[1] = `${v[0]}.${v[1]}.${v[2]}`;
+    return decoded.join('/');
+  } catch (err) {
+    // hex -> str
+    return str
+      .match(/.{1,2}/g)
+      .map(v => {
+        return String.fromCharCode(parseInt(v, 16));
+      })
+      .join('');
   }
-}
+};
 
-export default observer(App);
+export default decodeExtraData;

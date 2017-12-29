@@ -19,8 +19,10 @@ import PropTypes from 'prop-types';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 
+import styles from './Section.css';
+
 const Section = ({ children, title }) => (
-  <div>
+  <div className={styles.section}>
     <Header as="h3">{title}</Header>
     {children}
   </div>
