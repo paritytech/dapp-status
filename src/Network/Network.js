@@ -23,8 +23,8 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import formatNumber from 'format-number';
 
 import Field from '../components/Field';
+import LowerCaseStatistic from '../components/LowerCaseStatistic';
 import Section from '../components/Section';
-import styles from './Network.css';
 
 const toNiceNumber = formatNumber();
 
@@ -123,24 +123,20 @@ class Network extends Component {
             value={enode}
           />
         </Form>
-        <Statistic.Group
-          size="tiny"
-          widths={1}
-          className={styles.smallStatistic}
-        >
+        <LowerCaseStatistic size="tiny" widths={1}>
           <Statistic>
             <Statistic.Value>{`${toNiceNumber(netPeers.active) ||
               0}/${toNiceNumber(netPeers.connected) || 0}/${toNiceNumber(
               netPeers.max
             ) || 0}`}</Statistic.Value>
-            <Statistic.Label className={styles.lowerCaseLabel}>
+            <Statistic.Label>
               <FormattedMessage
                 id="dapp.status.mining.netPeersLabel"
                 defaultMessage="Active/Connected/Max Peers"
               />
             </Statistic.Label>
           </Statistic>
-        </Statistic.Group>
+        </LowerCaseStatistic>
       </Section>
     );
   }

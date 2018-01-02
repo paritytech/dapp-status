@@ -15,10 +15,7 @@
 /* along with Parity.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-:local(.smallStatistic) {
-  margin-top: 2em !important;
-}
-
-:local(.lowerCaseLabel) {
-  text-transform: none !important;
+:local(.coinbaseAvatar) {
+  width: 1em;
+  height: 1em;
 }

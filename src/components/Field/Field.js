@@ -21,8 +21,6 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
-import styles from './Field.css';
-
 class Input extends Component {
   static propTypes = {
     showCopyButton: PropTypes.bool
@@ -94,7 +92,7 @@ class Input extends Component {
           onKeyPress={this.handleKeyPress}
           onBlur={this.handleSubmit}
           onChange={this.handleChange}
-          readOnly={readOnly || this.state.isLoading || this.state.isSaved} // Don't allow changing when loading
+          readOnly={readOnly || this.state.isLoading} // Don't allow changing when loading
           ref={this.handleRef}
           value={this.state.value === null ? value || '' : this.state.value} // Controlled component
           {...rest}

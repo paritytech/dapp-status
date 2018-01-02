@@ -16,15 +16,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
+import styles from './LowerCaseStatistic.css';
 
-const Section = ({ children, title, ...rest }) => (
-  <Segment padded {...rest}>
-    <Header as="h3">{title}</Header>
+const LowerCaseStatistic = ({ children, className, ...rest }) => (
+  <Statistic.Group
+    className={[styles.lowerCaseStatistic, className].join(' ')}
+    {...rest}
+  >
     {children}
-  </Segment>
+  </Statistic.Group>
 );
 
-export default Section;
+export default LowerCaseStatistic;

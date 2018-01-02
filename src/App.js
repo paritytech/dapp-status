@@ -26,7 +26,6 @@ import Logs from './Logs';
 import Network from './Network';
 import NodeHealth from './NodeHealth';
 import Peers from './Peers';
-import styles from './App.css';
 
 class App extends Component {
   static contextTypes = {
