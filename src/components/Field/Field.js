@@ -23,7 +23,14 @@ import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 class Input extends Component {
   static propTypes = {
-    showCopyButton: PropTypes.bool
+    action: PropTypes.object,
+    error: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    onSubmit: PropTypes.func,
+    readOnly: PropTypes.bool,
+    showCopyButton: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.number
   };
 
   state = {

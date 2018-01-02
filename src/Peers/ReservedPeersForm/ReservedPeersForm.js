@@ -29,6 +29,10 @@ class ReservedPeersForm extends Component {
     acceptNonReservedPeers: true
   };
 
+  static propTypes = {
+    netPeersStore: PropTypes.object.isRequired
+  };
+
   handleToggleReservedPeers = (_, { checked }) => {
     const { netPeersStore } = this.props;
     this.setState({ acceptNonReservedPeers: checked });

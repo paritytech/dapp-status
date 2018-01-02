@@ -23,7 +23,6 @@ import ScrollableText from '@parity/ui/lib/ScrollableText';
 import ShortenedHash from '@parity/ui/lib/ShortenedHash';
 import { FormattedMessage } from 'react-intl';
 
-import Field from '../components/Field';
 import ReservedPeersForm from './ReservedPeersForm';
 import Section from '../components/Section';
 import styles from './Peers.css';
@@ -33,7 +32,9 @@ class Peers extends Component {
     showSettings: false
   };
 
-  static propTypes = {};
+  static propTypes = {
+    netPeersStore: PropTypes.object.isRequired
+  };
 
   handleToggleSettings = () =>
     this.setState({

@@ -27,4 +27,9 @@ const Section = ({ children, title, ...rest }) => (
   </Segment>
 );
 
+Section.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
+};
+
 export default Section;

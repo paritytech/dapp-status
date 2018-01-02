@@ -30,7 +30,10 @@ class Logs extends Component {
     sort: 'descending'
   };
 
-  static propTypes = {};
+  static propTypes = {
+    devLogsLevelsStore: PropTypes.object.isRequired,
+    devLogsStore: PropTypes.object.isRequired
+  };
 
   handleToggleLogging = () =>
     this.setState({ isLogging: !this.state.isLogging });

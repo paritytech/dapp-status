@@ -36,7 +36,8 @@ class EnodeField extends Component {
 
   static propTypes = {
     addRemove: PropTypes.oneOf(['ADD', 'REMOVE']),
-    intl: intlShape
+    intl: intlShape,
+    netPeersStore: PropTypes.object.isRequired
   };
 
   handleChange = (_, { value }) =>

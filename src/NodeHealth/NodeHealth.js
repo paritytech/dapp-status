@@ -27,6 +27,10 @@ import Section from '../components/Section';
 import styles from './NodeHealth.css';
 
 class NodeHealth extends Component {
+  static propTypes = {
+    nodeHealthStore: PropTypes.object.isRequired
+  };
+
   render() {
     const { nodeHealthStore: { health, overall } } = this.props;
 

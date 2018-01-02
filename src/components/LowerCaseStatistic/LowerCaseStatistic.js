@@ -29,4 +29,9 @@ const LowerCaseStatistic = ({ children, className, ...rest }) => (
   </Statistic.Group>
 );
 
+LowerCaseStatistic.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string
+};
+
 export default LowerCaseStatistic;

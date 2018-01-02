@@ -20,17 +20,19 @@ import { inject, observer } from 'mobx-react';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import formatNumber from 'format-number';
 
 import Field from '../components/Field';
 import LowerCaseStatistic from '../components/LowerCaseStatistic';
 import Section from '../components/Section';
 
-const toNiceNumber = formatNumber();
-
 class Network extends Component {
   static propTypes = {
-    intl: intlShape
+    chainStore: PropTypes.object.isRequired,
+    enodeStore: PropTypes.object.isRequired,
+    intl: intlShape,
+    netPeersStore: PropTypes.object.isRequired,
+    netPortStore: PropTypes.object.isRequired,
+    rpcSettingsStore: PropTypes.object.isRequired
   };
 
   render() {
@@ -86,7 +88,7 @@ class Network extends Component {
                 />
               }
               readOnly
-              value={netPort}
+              value={netPort && netPort.toNumber()}
             />
           </Form.Group>
           <Form.Group widths={2}>
@@ -125,10 +127,11 @@ class Network extends Component {
         </Form>
         <LowerCaseStatistic size="tiny" widths={1}>
           <Statistic>
-            <Statistic.Value>{`${toNiceNumber(netPeers.active) ||
-              0}/${toNiceNumber(netPeers.connected) || 0}/${toNiceNumber(
-              netPeers.max
-            ) || 0}`}</Statistic.Value>
+            <Statistic.Value>
+              {netPeers.active && netPeers.connected && netPeers.max
+                ? `${netPeers.active.toNumber()}/${netPeers.connected.toNumber()}/${netPeers.max.toNumber()}`
+                : '0/0/0'}
+            </Statistic.Value>
             <Statistic.Label>
               <FormattedMessage
                 id="dapp.status.mining.netPeersLabel"

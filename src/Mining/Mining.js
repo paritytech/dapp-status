@@ -32,7 +32,13 @@ import numberFromString from './utils/numberFromString';
 const toNiceNumber = formatNumber();
 
 class Mining extends Component {
-  static propTypes = {};
+  static propTypes = {
+    extraDataStore: PropTypes.object.isRequired,
+    gasFloorTargetStore: PropTypes.object.isRequired,
+    hashrateStore: PropTypes.object.isRequired,
+    latestBlockStore: PropTypes.object.isRequired,
+    minGasPriceStore: PropTypes.object.isRequired
+  };
 
   handleGasFloorTargetChange = value =>
     this.props.gasFloorTargetStore.saveGasFloorTarget(numberFromString(value));
@@ -49,7 +55,7 @@ class Mining extends Component {
       gasFloorTargetStore: { gasFloorTarget },
       hashrateStore: { hashrate },
       latestBlockStore: { latestBlock },
-      minGasPriceStore
+      minGasPriceStore: { minGasPrice }
     } = this.props;
 
     return (
@@ -81,7 +87,7 @@ class Mining extends Component {
               />
             }
             onSubmit={this.handleMinGasPriceChange}
-            value={toNiceNumber(minGasPriceStore.minGasPrice)}
+            value={toNiceNumber(minGasPrice)}
           />
           <Field
             label={
@@ -127,8 +133,6 @@ class Mining extends Component {
 }
 
 export default inject(
-  'accountsStore',
-  'coinbaseStore',
   'extraDataStore',
   'gasFloorTargetStore',
   'hashrateStore',
