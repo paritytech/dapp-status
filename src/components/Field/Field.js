@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
@@ -23,13 +23,48 @@ import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import styles from './Field.css';
 
-class Input extends PureComponent {
-  static defaultProps = {
-    showCopyButton: true
-  };
-
+class Input extends Component {
   static propTypes = {
     showCopyButton: PropTypes.bool
+  };
+
+  state = {
+    isLoading: false,
+    isSaved: false,
+    value: null
+  };
+
+  componentWillReceiveProps({ value }) {
+    // Reset field when new value comes
+    if (this.props.value !== value) {
+      this.setState({ value: null });
+    }
+  }
+
+  handleChange = (_, { value }) => this.setState({ value });
+
+  handleKeyPress = event => {
+    // Submit on enter
+    if (event.keyCode || event.charCode === 13) {
+      this.handleSubmit();
+    }
+  };
+
+  handleRef = ref => (this.ref = ref);
+
+  handleSubmit = () => {
+    if (!this.state.value || this.state.value === this.props.value) {
+      this.setState({ value: null });
+      return;
+    }
+
+    this.setState({ isLoading: true });
+    this.props
+      .onSubmit(this.state.value)
+      .then(() => this.setState({ isLoading: false, isSaved: true }))
+      .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+      .then(() => this.setState({ isSaved: false }))
+      .catch(() => this.setState({ isLoading: false }));
   };
 
   render() {
@@ -37,6 +72,8 @@ class Input extends PureComponent {
       action,
       error,
       label,
+      onSubmit,
+      readOnly,
       showCopyButton,
       value,
       width,
@@ -52,7 +89,14 @@ class Input extends PureComponent {
         <label>{label}</label>
         <SemanticInput
           action={action || (showCopyButton && { icon: 'copy' })}
-          value={value || ''} // Controlled component
+          loading={this.state.isLoading}
+          icon={this.state.isSaved ? { name: 'check', color: 'green' } : true}
+          onKeyPress={this.handleKeyPress}
+          onBlur={this.handleSubmit}
+          onChange={this.handleChange}
+          readOnly={readOnly}
+          ref={this.handleRef}
+          value={this.state.value === null ? value || '' : this.state.value} // Controlled component
           {...rest}
         />
       </Form.Field>

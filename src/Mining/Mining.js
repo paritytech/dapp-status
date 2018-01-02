@@ -21,14 +21,24 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import { FormattedMessage } from 'react-intl';
 import formatNumber from 'format-number';
 
-import decodeExtraData from './decodeExtraData';
 import Field from '../components/Field';
 import Section from '../components/Section';
+import decodeExtraData from './utils/decodeExtraData';
+import numberFromString from './utils/numberFromString';
 import styles from './Mining.css';
 
 const toNiceNumber = formatNumber();
 
 class Mining extends Component {
+  handleGasFloorTargetChange = value =>
+    this.props.gasFloorTargetStore.saveGasFloorTarget(numberFromString(value));
+
+  handleExtraDataChange = value =>
+    this.props.extraDataStore.saveExtraData(value);
+
+  handleMinGasPriceChange = value =>
+    this.props.minGasPriceStore.saveMinGasPrice(numberFromString(value));
+
   render() {
     const {
       extraDataStore,
@@ -53,6 +63,7 @@ class Mining extends Component {
                 defaultMessage="Extra Data"
               />
             }
+            onSubmit={this.handleExtraDataChange}
             value={decodeExtraData(extraDataStore.extraData)}
           />
           <Field
@@ -62,6 +73,7 @@ class Mining extends Component {
                 defaultMessage="Minimum Gas Price"
               />
             }
+            onSubmit={this.handleMinGasPriceChange}
             value={toNiceNumber(minGasPriceStore.minGasPrice)}
           />
           <Field
@@ -71,6 +83,7 @@ class Mining extends Component {
                 defaultMessage="Gas Floor Target"
               />
             }
+            onSubmit={this.handleGasFloorTargetChange}
             value={toNiceNumber(gasFloorTargetStore.gasFloorTarget)}
           />
         </Form>

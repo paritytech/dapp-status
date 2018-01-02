@@ -55,6 +55,7 @@ class Network extends Component {
                 defaultMessage="Chain"
               />
             }
+            readOnly
             value={chainStore.chain}
           />
           <Form.Group widths={2}>
@@ -65,6 +66,7 @@ class Network extends Component {
                   defaultMessage="RPC Enabled"
                 />
               }
+              readOnly
               value={
                 rpcSettings && rpcSettings.enabled
                   ? formatMessage(messages.rpcEnabledYes)
@@ -78,6 +80,7 @@ class Network extends Component {
                   defaultMessage="Network Port"
                 />
               }
+              readOnly
               value={netPortStore.netPort}
             />
           </Form.Group>
@@ -89,6 +92,7 @@ class Network extends Component {
                   defaultMessage="RPC Interface"
                 />
               }
+              readOnly
               value={rpcSettings && rpcSettings.interface}
             />
             <Field
@@ -98,6 +102,7 @@ class Network extends Component {
                   defaultMessage="RPC Port"
                 />
               }
+              readOnly
               value={rpcSettings && rpcSettings.port}
             />
           </Form.Group>
@@ -108,6 +113,8 @@ class Network extends Component {
                 defaultMessage="Enode"
               />
             }
+            readOnly
+            showCopyButton
             value={enodeStore.enode}
           />
         </Form>
