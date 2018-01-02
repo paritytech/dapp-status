@@ -94,7 +94,7 @@ class Input extends Component {
           onKeyPress={this.handleKeyPress}
           onBlur={this.handleSubmit}
           onChange={this.handleChange}
-          readOnly={readOnly}
+          readOnly={readOnly || this.state.isLoading || this.state.isSaved} // Don't allow changing when loading
           ref={this.handleRef}
           value={this.state.value === null ? value || '' : this.state.value} // Controlled component
           {...rest}

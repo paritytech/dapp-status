@@ -18,7 +18,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import { FormattedMessage } from 'react-intl';
+import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
+import IdentityIcon from '@parity/ui/lib/IdentityIcon';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import formatNumber from 'format-number';
 
 import Field from '../components/Field';
@@ -30,6 +32,13 @@ import styles from './Mining.css';
 const toNiceNumber = formatNumber();
 
 class Mining extends Component {
+  static propTypes = {
+    intl: intlShape
+  };
+
+  handleCoinbaseChange = (_, { value }) =>
+    this.props.coinbaseStore.setAuthor(value);
+
   handleGasFloorTargetChange = value =>
     this.props.gasFloorTargetStore.saveGasFloorTarget(numberFromString(value));
 
@@ -41,8 +50,13 @@ class Mining extends Component {
 
   render() {
     const {
-      extraDataStore,
-      gasFloorTargetStore,
+      accountsStore: { accounts },
+      coinbaseStore: { coinbase },
+      extraDataStore: { extraData },
+      gasFloorTargetStore: { gasFloorTarget },
+      hashrateStore: { hashrate },
+      latestBlockStore: { latestBlock },
+      intl: { formatMessage },
       minGasPriceStore
     } = this.props;
 
@@ -56,6 +70,26 @@ class Mining extends Component {
         }
       >
         <Form>
+          <Form.Select
+            icon={
+              coinbase && (
+                <IdentityIcon
+                  address={coinbase}
+                  alt={coinbase}
+                  className={styles.coinbaseAvatar}
+                />
+              )
+            }
+            label={formatMessage(messages.coinbaseLabel)}
+            onChange={this.handleCoinbaseChange}
+            options={accounts.map(account => ({
+              image: <IdentityIcon address={account} alt={account} />,
+              key: account,
+              value: account,
+              text: account
+            }))}
+            value={coinbase}
+          />
           <Field
             label={
               <FormattedMessage
@@ -64,7 +98,7 @@ class Mining extends Component {
               />
             }
             onSubmit={this.handleExtraDataChange}
-            value={decodeExtraData(extraDataStore.extraData)}
+            value={decodeExtraData(extraData)}
           />
           <Field
             label={
@@ -84,16 +118,61 @@ class Mining extends Component {
               />
             }
             onSubmit={this.handleGasFloorTargetChange}
-            value={toNiceNumber(gasFloorTargetStore.gasFloorTarget)}
+            value={toNiceNumber(gasFloorTarget)}
           />
         </Form>
+        <Statistic.Group
+          size="tiny"
+          widths={2}
+          className={styles.smallStatistic}
+        >
+          <Statistic>
+            <Statistic.Value>{`#${toNiceNumber(
+              latestBlock.number || ' -'
+            )}`}</Statistic.Value>
+            <Statistic.Label className={styles.lowerCaseLabel}>
+              <FormattedMessage
+                id="dapp.status.mining.bestBlockLabel"
+                defaultMessage="Best Block, at {time}"
+                values={{
+                  time: new Date(latestBlock.timestamp)
+                    .toTimeString()
+                    .split(' ')[0]
+                }}
+              />
+            </Statistic.Label>
+          </Statistic>
+          <Statistic>
+            <Statistic.Value className={styles.lowerCaseLabel}>{`${hashrate ||
+              0} H/s`}</Statistic.Value>
+            <Statistic.Label className={styles.lowerCaseLabel}>
+              <FormattedMessage
+                id="dapp.status.mining.hashrateLabel"
+                defaultMessage="Hash Rate"
+              />
+            </Statistic.Label>
+          </Statistic>
+        </Statistic.Group>
       </Section>
     );
   }
 }
 
-export default inject(
-  'extraDataStore',
-  'gasFloorTargetStore',
-  'minGasPriceStore'
-)(observer(Mining));
+export default injectIntl(
+  inject(
+    'accountsStore',
+    'coinbaseStore',
+    'extraDataStore',
+    'gasFloorTargetStore',
+    'hashrateStore',
+    'latestBlockStore',
+    'minGasPriceStore'
+  )(observer(Mining))
+);
+
+const messages = {
+  coinbaseLabel: {
+    id: 'dapp.status.mining.coinbaseLabel',
+    defaultMessage: 'Mining Author'
+  }
+};

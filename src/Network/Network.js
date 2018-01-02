@@ -18,11 +18,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import formatNumber from 'format-number';
 
 import Field from '../components/Field';
 import Section from '../components/Section';
 import styles from './Network.css';
+
+const toNiceNumber = formatNumber();
 
 class Network extends Component {
   static propTypes = {
@@ -31,9 +35,10 @@ class Network extends Component {
 
   render() {
     const {
-      chainStore,
-      enodeStore,
-      netPortStore,
+      chainStore: { chain },
+      enodeStore: { enode },
+      netPeersStore: { netPeers },
+      netPortStore: { netPort },
       rpcSettingsStore: { rpcSettings },
       intl: { formatMessage }
     } = this.props;
@@ -56,7 +61,7 @@ class Network extends Component {
               />
             }
             readOnly
-            value={chainStore.chain}
+            value={chain}
           />
           <Form.Group widths={2}>
             <Field
@@ -81,7 +86,7 @@ class Network extends Component {
                 />
               }
               readOnly
-              value={netPortStore.netPort}
+              value={netPort}
             />
           </Form.Group>
           <Form.Group widths={2}>
@@ -115,18 +120,40 @@ class Network extends Component {
             }
             readOnly
             showCopyButton
-            value={enodeStore.enode}
+            value={enode}
           />
         </Form>
+        <Statistic.Group
+          size="tiny"
+          widths={1}
+          className={styles.smallStatistic}
+        >
+          <Statistic>
+            <Statistic.Value>{`${toNiceNumber(netPeers.active) ||
+              0}/${toNiceNumber(netPeers.connected) || 0}/${toNiceNumber(
+              netPeers.max
+            ) || 0}`}</Statistic.Value>
+            <Statistic.Label className={styles.lowerCaseLabel}>
+              <FormattedMessage
+                id="dapp.status.mining.netPeersLabel"
+                defaultMessage="Active/Connected/Max Peers"
+              />
+            </Statistic.Label>
+          </Statistic>
+        </Statistic.Group>
       </Section>
     );
   }
 }
 
 export default injectIntl(
-  inject('chainStore', 'enodeStore', 'netPortStore', 'rpcSettingsStore')(
-    observer(Network)
-  )
+  inject(
+    'chainStore',
+    'enodeStore',
+    'netPeersStore',
+    'netPortStore',
+    'rpcSettingsStore'
+  )(observer(Network))
 );
 
 const messages = {

@@ -19,6 +19,7 @@ import ReactDOM from 'react-dom';
 import { Provider as MobxProvider } from 'mobx-react';
 import ContextProvider from '@parity/ui/lib/ContextProvider';
 import {
+  AccountsStore,
   ChainStore,
   CoinbaseStore,
   DefaultExtraDataStore,
@@ -27,6 +28,8 @@ import {
   EnodeStore,
   ExtraDataStore,
   GasFloorTargetStore,
+  HashrateStore,
+  LatestBlockStore,
   MinGasPriceStore,
   NetPeersStore,
   NetPortStore,
@@ -40,6 +43,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 const rootStore = {
+  accountsStore: AccountsStore.get(api),
   chainStore: ChainStore.get(api),
   coinbaseStore: CoinbaseStore.get(api),
   defaultExtraDataStore: DefaultExtraDataStore.get(api),
@@ -48,6 +52,8 @@ const rootStore = {
   enodeStore: EnodeStore.get(api),
   extraDataStore: ExtraDataStore.get(api),
   gasFloorTargetStore: GasFloorTargetStore.get(api),
+  hashrateStore: HashrateStore.get(api),
+  latestBlockStore: LatestBlockStore.get(api),
   minGasPriceStore: MinGasPriceStore.get(api),
   netPeersStore: NetPeersStore.get(api),
   netPortStore: NetPortStore.get(api),
