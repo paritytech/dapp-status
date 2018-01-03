@@ -16,16 +16,17 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
+import { FormattedMessage } from 'react-intl';
 
 class Input extends Component {
   static propTypes = {
     action: PropTypes.object,
-    error: PropTypes.string,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     onSubmit: PropTypes.func,
     readOnly: PropTypes.bool,
     showCopyButton: PropTypes.bool,
@@ -34,6 +35,7 @@ class Input extends Component {
   };
 
   state = {
+    isCopied: false,
     isLoading: false,
     isSaved: false,
     value: null
@@ -48,14 +50,24 @@ class Input extends Component {
 
   handleChange = (_, { value }) => this.setState({ value });
 
+  handleCopy = () => {
+    // https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
+    var tmp = document.createElement('textarea');
+    tmp.innerText = this.props.value;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    tmp.remove();
+    this.setState({ isCopied: true });
+    setTimeout(() => this.setState({ isCopied: false }), 2000);
+  };
+
   handleKeyPress = event => {
     // Submit on enter
     if (event.keyCode || event.charCode === 13) {
       this.handleSubmit();
     }
   };
-
-  handleRef = ref => (this.ref = ref);
 
   handleSubmit = () => {
     if (!this.state.value || this.state.value === this.props.value) {
@@ -72,38 +84,64 @@ class Input extends Component {
       .catch(() => this.setState({ isLoading: false }));
   };
 
-  render() {
+  renderInput = () => {
     const {
       action,
       error,
       label,
-      onSubmit,
       readOnly,
       showCopyButton,
       value,
-      width,
       ...rest
     } = this.props;
     return (
+      <SemanticInput
+        action={
+          action ||
+          (showCopyButton && {
+            icon: 'copy',
+            onClick: this.handleCopy
+          })
+        }
+        loading={this.state.isLoading}
+        icon={this.state.isSaved ? { name: 'check', color: 'green' } : true}
+        onKeyPress={this.handleKeyPress}
+        onBlur={this.handleSubmit}
+        onChange={this.handleChange}
+        readOnly={readOnly || this.state.isLoading} // Don't allow changing when loading
+        value={this.state.value === null ? value || '' : this.state.value} // Controlled component
+        {...rest}
+      />
+    );
+  };
+
+  render() {
+    const { error, label, showCopyButton, width } = this.props;
+    return (
       <Form.Field width={width}>
+        <label>{label}</label>
+        {showCopyButton ? (
+          <Popup
+            content={
+              <FormattedMessage
+                id="dapp.status.field.copied"
+                defaultMessage="Copied"
+              />
+            }
+            inverted
+            open={this.state.isCopied}
+            position="top center"
+            size="mini"
+            trigger={this.renderInput()}
+          />
+        ) : (
+          this.renderInput()
+        )}
         {error && (
-          <Label basic color="red" pointing="below">
+          <Label basic color="red" pointing>
             {error}
           </Label>
         )}
-        <label>{label}</label>
-        <SemanticInput
-          action={action || (showCopyButton && { icon: 'copy' })}
-          loading={this.state.isLoading}
-          icon={this.state.isSaved ? { name: 'check', color: 'green' } : true}
-          onKeyPress={this.handleKeyPress}
-          onBlur={this.handleSubmit}
-          onChange={this.handleChange}
-          readOnly={readOnly || this.state.isLoading} // Don't allow changing when loading
-          ref={this.handleRef}
-          value={this.state.value === null ? value || '' : this.state.value} // Controlled component
-          {...rest}
-        />
       </Form.Field>
     );
   }
