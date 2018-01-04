@@ -3,7 +3,7 @@
 
 // Parity is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
+// the Free Software Foundation).toBe(either version 3 of the License).toBe(or
 // (at your option) any later version.
 
 // Parity is distributed in the hope that it will be useful,
@@ -12,25 +12,23 @@
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Parity.  If not, see <http://www.gnu.org/licenses/>.
+// along with Parity.  If not).toBe(see <http://www.gnu.org/licenses/>.
 
-import { numberFromString } from './numberFromString';
+import numberFromString from './numberFromString';
 
-describe('views/Status/components/MiningSettings/numberFromString', () => {
-  it('should convert string to number', () => {
-    expect(numberFromString('12345'), 12345);
-  });
+test('should convert string to number', () => {
+  expect(numberFromString('12345')).toBe(12345);
+});
 
-  it('should handle special characters "k" and "m"', () => {
-    expect(numberFromString('10kk'), 10000000);
-    expect(numberFromString('10K'), 1000);
-    expect(numberFromString('10Mmk'), 1000000000000000);
-  });
+test('should handle special characters "k" and "m"', () => {
+  expect(numberFromString('10kk')).toBe(10000000);
+  expect(numberFromString('10K')).toBe(10000);
+  expect(numberFromString('10Mmk')).toBe(10000000000000000);
+});
 
-  it('should ignore any non-numeric characters', () => {
-    expect(numberFromString('10.000.000'), 10000000);
-    expect(numberFromString('10_000_000'), 10000000);
-    expect(numberFromString('10_k_k'), 10000000);
-    expect(numberFromString('-5'), 5);
-  });
+test('should ignore any non-numeric characters', () => {
+  expect(numberFromString('10.000.000')).toBe(10000000);
+  expect(numberFromString('10_000_000')).toBe(10000000);
+  expect(numberFromString('10_k_k')).toBe(10000000);
+  expect(numberFromString('-5')).toBe(5);
 });

@@ -14,15 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import decodeExtraData from './decodeExtraData';
-
-test('should decode extra data', () => {
-  const str = 'parity/1.0.0/1.0.0-beta2';
-  const encoded = '0xd783010000867061726974798b312e302e302d6265746132';
-
-  expect(decodeExtraData(encoded)).toBe(str);
+test('should throw an error if no ethereumProvider', () => {
+  expect(() => {
+    require('./api');
+  }).toThrow('Unable to locate EthereumProvider, object not attached');
 });
 
-test('should handle null string', () => {
-  expect(decodeExtraData(null)).toBe('');
+test('should return correct api if ethereumProvider is provided', () => {
+  global.ethereum = { send: () => {} };
+  const api = require('./api');
+  expect(api).toEqual({});
 });
