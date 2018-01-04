@@ -16,27 +16,19 @@
 
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { FormattedMessage } from 'react-intl';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
-import Page from '@parity/ui/lib/Page';
 
 import Mining from '../Mining';
 import Logs from '../Logs';
 import Network from '../Network';
 import NodeHealth from '../NodeHealth';
 import Peers from '../Peers';
+import styles from './App.css';
 
 class App extends Component {
   render() {
     return (
-      <Page
-        title={
-          <FormattedMessage
-            id="dapp.status.title"
-            defaultMessage="Information about your node"
-          />
-        }
-      >
+      <div className={styles.layout}>
         <NodeHealth />
         <Segment.Group horizontal>
           <Mining />
@@ -44,7 +36,7 @@ class App extends Component {
         </Segment.Group>
         <Peers />
         <Logs />
-      </Page>
+      </div>
     );
   }
 }

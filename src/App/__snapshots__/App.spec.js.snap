@@ -1,15 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<Page
-  title={
-    <FormattedMessage
-      defaultMessage="Information about your node"
-      id="dapp.status.title"
-      values={Object {}}
-    />
-  }
->
+<div>
   <inject-NodeHealth-with-nodeHealthStore />
   <SegmentGroup
     horizontal={true}
@@ -19,5 +11,5 @@ exports[`should render correctly 1`] = `
   </SegmentGroup>
   <inject-Peers-with-netPeersStore />
   <inject-Logs-with-devLogsLevelsStore-devLogsStore />
-</Page>
+</div>
 `;
