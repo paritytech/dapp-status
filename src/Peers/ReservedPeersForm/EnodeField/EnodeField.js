@@ -21,92 +21,32 @@ import { injectIntl, intlShape } from 'react-intl';
 
 import Field from '../../../components/Field';
 
-const NORMAL = 'NORMAL';
-const PENDING = 'PENDING';
-const FULFILLED = 'FULFILLED';
-const ERROR = 'ERROR';
-
-class EnodeField extends Component {
-  state = {
-    acceptNonReservedPeers: true,
-    enode: '',
-    error: null,
-    phase: NORMAL
-  };
-
+export class EnodeField extends Component {
   static propTypes = {
     addRemove: PropTypes.oneOf(['ADD', 'REMOVE']),
     intl: intlShape,
     netPeersStore: PropTypes.object.isRequired
   };
-
-  handleChange = (_, { value }) =>
-    this.setState({ enode: value, phase: NORMAL });
-
-  handleSubmit = () => {
-    if (this.state.phase === ERROR) {
-      this.setState({ phase: NORMAL, error: null });
-      return;
-    }
-    const { netPeersStore, addRemove } = this.props;
-    this.setState({ phase: PENDING });
-    const enodePromise =
-      addRemove === 'ADD'
-        ? netPeersStore.addReservedPeer(this.state.enode)
-        : netPeersStore.removeReservedPeer(this.state.enode);
-
-    enodePromise
-      .then(() => {
-        this.setState({
-          phase: FULFILLED,
-          enode: ''
-        });
-        // Show the fulfilled message for 2s
-        return new Promise(resolve => setTimeout(resolve, 2000));
-      })
-      .then(() => this.setState({ phase: NORMAL }))
-      .catch(error => {
-        this.setState({ phase: ERROR, error: error.toString() });
-      });
-  };
-
   render() {
-    const { addRemove, intl: { formatMessage } } = this.props;
-    const { enode, error, phase } = this.state;
+    const { addRemove, intl: { formatMessage }, netPeersStore } = this.props;
 
     return (
       <Field
         action={{
-          content:
-            phase === FULFILLED
-              ? formatMessage(messages.reservedPeerFulfilled, {
-                  add: addRemove === 'ADD'
-                })
-              : phase === ERROR
-                ? formatMessage(messages.reservedPeerError, {})
-                : formatMessage(messages.reservedPeerButton, {
-                    add: addRemove === 'ADD'
-                  }),
-          disabled: !enode || phase === FULFILLED,
-          icon:
-            phase === FULFILLED
-              ? 'check'
-              : phase === ERROR
-                ? 'remove'
-                : addRemove === 'ADD' ? 'plus' : 'minus',
-          loading: phase === PENDING,
-          onClick: this.handleSubmit,
-          positive: phase === FULFILLED,
-          primary: phase !== ERROR,
-          size: 'tiny'
+          content: formatMessage(messages.reservedPeerButton, {
+            add: addRemove === 'ADD'
+          }),
+          icon: addRemove === 'ADD' ? 'plus' : 'minus'
         }}
-        error={phase === ERROR && error}
-        onChange={this.handleChange}
+        onSubmit={
+          addRemove === 'ADD'
+            ? netPeersStore.addReservedPeer.bind(netPeersStore)
+            : netPeersStore.removeReservedPeer.bind(netPeersStore)
+        }
         placeholder={formatMessage(messages.reservedPeerPlaceholder, {
           add: addRemove === 'ADD'
         })}
         size="small"
-        value={enode}
         width={5}
       />
     );

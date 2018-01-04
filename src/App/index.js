@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-export default val =>
-  parseInt(
-    val
-      .replace(/m/gi, 'kk')
-      .replace(/k/gi, '000')
-      .replace(/[^0-9]/g, ''),
-    10
-  );
+import App from './App';
+
+export default App;

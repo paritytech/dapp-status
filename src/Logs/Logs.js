@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import Section from '../components/Section';
 import styles from './Logs.css';
 
-class Logs extends Component {
+export class Logs extends Component {
   state = {
     isLogging: false,
     sort: 'descending'
@@ -49,7 +49,10 @@ class Logs extends Component {
 
     const logs =
       sort === 'descending'
-        ? devLogsStore.parsedLogs.slice(0, 25).reverse()
+        ? devLogsStore.parsedLogs
+            .slice()
+            .reverse()
+            .slice(0, 25)
         : devLogsStore.parsedLogs.slice(0, 25);
 
     return logs.map((log, index) => (

@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import EnodeField from './EnodeField';
 import styles from './ReservedPeersForm.css';
 
-class ReservedPeersForm extends Component {
+export class ReservedPeersForm extends Component {
   state = {
     acceptNonReservedPeers: true
   };

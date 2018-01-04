@@ -20,21 +20,22 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import SemanticInput from 'semantic-ui-react/dist/commonjs/elements/Input';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-class Input extends Component {
+export class Field extends Component {
   static propTypes = {
     action: PropTypes.object,
-    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    intl: intlShape,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     onSubmit: PropTypes.func,
     readOnly: PropTypes.bool,
-    showCopyButton: PropTypes.bool,
+    showCopyButton: PropTypes.bool, // Will be overridden if action is set
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     width: PropTypes.number
   };
 
   state = {
+    error: null,
     isCopied: false,
     isLoading: false,
     isSaved: false,
@@ -43,12 +44,14 @@ class Input extends Component {
 
   componentWillReceiveProps({ value }) {
     // Reset field when new value comes
-    if (this.props.value !== value) {
-      this.setState({ value: null });
+    if (this.props.value !== value && value) {
+      this.setState({ value });
     }
   }
 
-  handleChange = (_, { value }) => this.setState({ value });
+  handleChange = (_, { value }) => this.setState({ value, error: null });
+
+  handleClearError = () => this.setState({ error: null });
 
   handleCopy = () => {
     // https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
@@ -64,14 +67,13 @@ class Input extends Component {
 
   handleKeyPress = event => {
     // Submit on enter
-    if (event.keyCode || event.charCode === 13) {
+    if (event.keyCode === 13 || event.charCode === 13) {
       this.handleSubmit();
     }
   };
 
   handleSubmit = () => {
     if (!this.state.value || this.state.value === this.props.value) {
-      this.setState({ value: null });
       return;
     }
 
@@ -81,13 +83,70 @@ class Input extends Component {
       .then(() => this.setState({ isLoading: false, isSaved: true }))
       .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
       .then(() => this.setState({ isSaved: false }))
-      .catch(() => this.setState({ isLoading: false }));
+      .catch(error => this.setState({ isLoading: false, error }));
   };
 
-  renderInput = () => {
+  /**
+   * Render an input which submits through an action button
+   */
+  renderActionInput = () => {
     const {
       action,
-      error,
+      intl: { formatMessage },
+      label,
+      readOnly,
+      showCopyButton,
+      value,
+      ...rest
+    } = this.props;
+
+    // Customize the action of the input depending on state
+    let inputAction;
+    if (this.state.error) {
+      inputAction = {
+        ...action,
+        content: formatMessage(messages.clearError),
+        icon: 'remove',
+        onClick: this.handleClearError,
+        size: 'tiny'
+      };
+    } else if (this.state.isSaved) {
+      inputAction = {
+        ...action,
+        content: formatMessage(messages.success),
+        disabled: true,
+        icon: 'check',
+        positive: true,
+        size: 'tiny'
+      };
+    } else {
+      inputAction = {
+        ...action,
+        disabled: !this.state.value || this.state.isLoading,
+        loading: this.state.isLoading,
+        onClick: this.handleSubmit,
+        primary: true,
+        size: 'tiny'
+      };
+    }
+
+    return (
+      <SemanticInput
+        action={inputAction}
+        onChange={this.handleChange}
+        readOnly={readOnly || this.state.isLoading || this.state.isSaved} // Don't allow changing when loading
+        value={this.state.value} // Controlled component
+        {...rest}
+      />
+    );
+  };
+
+  /**
+   * Render an input with an icon, which submits through blur or keypress
+   */
+  renderIconInput = () => {
+    const {
+      action,
       label,
       readOnly,
       showCopyButton,
@@ -97,11 +156,10 @@ class Input extends Component {
     return (
       <SemanticInput
         action={
-          action ||
-          (showCopyButton && {
+          showCopyButton && {
             icon: 'copy',
             onClick: this.handleCopy
-          })
+          }
         }
         loading={this.state.isLoading}
         icon={this.state.isSaved ? { name: 'check', color: 'green' } : true}
@@ -109,14 +167,17 @@ class Input extends Component {
         onBlur={this.handleSubmit}
         onChange={this.handleChange}
         readOnly={readOnly || this.state.isLoading} // Don't allow changing when loading
-        value={this.state.value === null ? value || '' : this.state.value} // Controlled component
+        value={this.state.value} // Controlled component
         {...rest}
       />
     );
   };
 
+  renderInput = () =>
+    this.props.action ? this.renderActionInput() : this.renderIconInput();
+
   render() {
-    const { error, label, showCopyButton, width } = this.props;
+    const { label, showCopyButton, width } = this.props;
     return (
       <Form.Field width={width}>
         <label>{label}</label>
@@ -137,9 +198,9 @@ class Input extends Component {
         ) : (
           this.renderInput()
         )}
-        {error && (
+        {this.state.error && (
           <Label basic color="red" pointing>
-            {error}
+            {this.state.error.toString()}
           </Label>
         )}
       </Form.Field>
@@ -147,4 +208,15 @@ class Input extends Component {
   }
 }
 
-export default Input;
+export default injectIntl(Field);
+
+const messages = {
+  clearError: {
+    id: 'dapp.status.field.clearError',
+    defaultMessage: 'Clear Error'
+  },
+  success: {
+    id: 'dapp.status.field.success',
+    defaultMessage: 'Success'
+  }
+};

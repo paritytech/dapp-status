@@ -26,7 +26,7 @@ import { FormattedMessage } from 'react-intl';
 import Section from '../components/Section';
 import styles from './NodeHealth.css';
 
-class NodeHealth extends Component {
+export class NodeHealth extends Component {
   static propTypes = {
     nodeHealthStore: PropTypes.object.isRequired
   };

@@ -27,7 +27,7 @@ import ReservedPeersForm from './ReservedPeersForm';
 import Section from '../components/Section';
 import styles from './Peers.css';
 
-class Peers extends Component {
+export class Peers extends Component {
   state = {
     showSettings: false
   };

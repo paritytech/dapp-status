@@ -25,7 +25,7 @@ import Field from '../components/Field';
 import LowerCaseStatistic from '../components/LowerCaseStatistic';
 import Section from '../components/Section';
 
-class Network extends Component {
+export class Network extends Component {
   static propTypes = {
     chainStore: PropTypes.object.isRequired,
     enodeStore: PropTypes.object.isRequired,

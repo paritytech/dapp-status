@@ -23,7 +23,7 @@ import { injectIntl, intlShape } from 'react-intl';
 
 import styles from './CoinbaseField.css';
 
-class CoinbaseField extends Component {
+export class CoinbaseField extends Component {
   static propTypes = {
     accountsStore: PropTypes.object.isRequired,
     coinbaseStore: PropTypes.object.isRequired,

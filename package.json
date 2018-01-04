@@ -20,8 +20,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!<rootDir>/node_modules/",
-      "!src/index.js",
+      "!src/**/index.js",
       "!src/registerServiceWorker.js",
       "!src/setupTests.js"
     ]
@@ -37,7 +36,7 @@
   },
   "dependencies": {
     "@parity/api": "^2.1.5",
-    "@parity/mobx": "^1.0.4",
+    "@parity/mobx": "^1.0.5",
     "@parity/ui": "^3.0.22",
     "format-number": "^3.0.0",
     "mobx": "^3.4.1",
@@ -52,8 +51,9 @@
     "semantic-ui-react": "^0.77.0"
   },
   "devDependencies": {
+    "bignumber.js": "^5.0.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
-    "enzyme-to-json": "^3.2.2"
+    "enzyme-to-json": "^3.3.0"
   }
 }

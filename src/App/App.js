@@ -15,23 +15,18 @@
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { FormattedMessage } from 'react-intl';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import Page from '@parity/ui/lib/Page';
 
-import Mining from './Mining';
-import Logs from './Logs';
-import Network from './Network';
-import NodeHealth from './NodeHealth';
-import Peers from './Peers';
+import Mining from '../Mining';
+import Logs from '../Logs';
+import Network from '../Network';
+import NodeHealth from '../NodeHealth';
+import Peers from '../Peers';
 
 class App extends Component {
-  static contextTypes = {
-    api: PropTypes.object.isRequired
-  };
-
   render() {
     return (
       <Page

@@ -31,7 +31,7 @@ import numberFromString from './utils/numberFromString';
 
 const toNiceNumber = formatNumber();
 
-class Mining extends Component {
+export class Mining extends Component {
   static propTypes = {
     extraDataStore: PropTypes.object.isRequired,
     gasFloorTargetStore: PropTypes.object.isRequired,
@@ -40,11 +40,11 @@ class Mining extends Component {
     minGasPriceStore: PropTypes.object.isRequired
   };
 
-  handleGasFloorTargetChange = value =>
-    this.props.gasFloorTargetStore.saveGasFloorTarget(numberFromString(value));
-
   handleExtraDataChange = value =>
     this.props.extraDataStore.saveExtraData(value);
+
+  handleGasFloorTargetChange = value =>
+    this.props.gasFloorTargetStore.saveGasFloorTarget(numberFromString(value));
 
   handleMinGasPriceChange = value =>
     this.props.minGasPriceStore.saveMinGasPrice(numberFromString(value));
