@@ -14,29 +14,59 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import ReactDOM from 'react-dom';
 import React from 'react';
-import { Route, Router, hashHistory } from 'react-router';
-
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
-import ContractInstances from '@parity/shared/lib/contracts';
-import { initStore } from '@parity/shared/lib/redux';
+import ReactDOM from 'react-dom';
+import { Provider as MobxProvider } from 'mobx-react';
 import ContextProvider from '@parity/ui/lib/ContextProvider';
+import {
+  AccountsStore,
+  ChainStore,
+  CoinbaseStore,
+  DefaultExtraDataStore,
+  DevLogsLevelsStore,
+  DevLogsStore,
+  EnodeStore,
+  ExtraDataStore,
+  GasFloorTargetStore,
+  HashrateStore,
+  LatestBlockStore,
+  MinGasPriceStore,
+  NetPeersStore,
+  NetPortStore,
+  NodeHealthStore,
+  RpcSettingsStore
+} from '@parity/mobx/lib';
+import 'semantic-ui-css/semantic.min.css';
 
 import api from './api';
-import Status from './status';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
-ContractInstances.get(api);
-
-const store = initStore(api, hashHistory);
+const rootStore = {
+  accountsStore: AccountsStore.get(api),
+  chainStore: ChainStore.get(api),
+  coinbaseStore: CoinbaseStore.get(api),
+  defaultExtraDataStore: DefaultExtraDataStore.get(api),
+  devLogsLevelsStore: DevLogsLevelsStore.get(api),
+  devLogsStore: DevLogsStore.get(api),
+  enodeStore: EnodeStore.get(api),
+  extraDataStore: ExtraDataStore.get(api),
+  gasFloorTargetStore: GasFloorTargetStore.get(api),
+  hashrateStore: HashrateStore.get(api),
+  latestBlockStore: LatestBlockStore.get(api),
+  minGasPriceStore: MinGasPriceStore.get(api),
+  netPeersStore: NetPeersStore.get(api),
+  netPortStore: NetPortStore.get(api),
+  nodeHealthStore: NodeHealthStore.get(api),
+  rpcSettingsStore: RpcSettingsStore.get(api)
+};
 
 ReactDOM.render(
-  <ContextProvider api={ api } store={ store }>
-    <Router history={ hashHistory }>
-      <Route path='/' component={ Status } />
-    </Router>
+  <ContextProvider api={api}>
+    <MobxProvider {...rootStore}>
+      <App />
+    </MobxProvider>
   </ContextProvider>,
-  document.querySelector('#container')
+  document.getElementById('root')
 );
+registerServiceWorker();

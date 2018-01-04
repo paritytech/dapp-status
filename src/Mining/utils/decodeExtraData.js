@@ -14,12 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import Api from '@parity/api';
+import rlp from 'rlp';
 
-const ethereumProvider = window.ethereum;
+const decodeExtraData = str => {
+  if (!str) return '';
+  try {
+    // Try decoding as RLP
+    const decoded = rlp.decode(str);
+    const v = decoded[0];
 
-if (!ethereumProvider) {
-  throw new Error('Unable to locate EthereumProvider, object not attached');
-}
+    decoded[0] = decoded[1];
+    decoded[1] = `${v[0]}.${v[1]}.${v[2]}`;
+    return decoded.join('/');
+  } catch (err) {
+    // hex -> str
+    return str
+      .match(/.{1,2}/g)
+      .map(v => {
+        return String.fromCharCode(parseInt(v, 16));
+      })
+      .join('');
+  }
+};
 
-export default new Api(ethereumProvider);
+export default decodeExtraData;

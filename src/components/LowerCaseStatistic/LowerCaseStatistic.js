@@ -14,12 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import Api from '@parity/api';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Statistic from 'semantic-ui-react/dist/commonjs/views/Statistic';
 
-const ethereumProvider = window.ethereum;
+import styles from './LowerCaseStatistic.css';
 
-if (!ethereumProvider) {
-  throw new Error('Unable to locate EthereumProvider, object not attached');
-}
+const LowerCaseStatistic = ({ children, className, ...rest }) => (
+  <Statistic.Group
+    className={[styles.lowerCaseStatistic, className].join(' ')}
+    {...rest}
+  >
+    {children}
+  </Statistic.Group>
+);
 
-export default new Api(ethereumProvider);
+LowerCaseStatistic.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string
+};
+
+export default LowerCaseStatistic;

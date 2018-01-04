@@ -14,12 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import Api from '@parity/api';
+import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 
-const ethereumProvider = window.ethereum;
+import Mining from '../Mining';
+import Logs from '../Logs';
+import Network from '../Network';
+import NodeHealth from '../NodeHealth';
+import Peers from '../Peers';
+import styles from './App.css';
 
-if (!ethereumProvider) {
-  throw new Error('Unable to locate EthereumProvider, object not attached');
+class App extends Component {
+  render() {
+    return (
+      <div className={styles.layout}>
+        <NodeHealth />
+        <Segment.Group horizontal>
+          <Mining />
+          <Network />
+        </Segment.Group>
+        <Peers />
+        <Logs />
+      </div>
+    );
+  }
 }
 
-export default new Api(ethereumProvider);
+export default observer(App);

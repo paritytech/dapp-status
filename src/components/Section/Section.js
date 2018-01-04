@@ -14,12 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import Api from '@parity/api';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const ethereumProvider = window.ethereum;
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 
-if (!ethereumProvider) {
-  throw new Error('Unable to locate EthereumProvider, object not attached');
-}
+const Section = ({ children, title, ...rest }) => (
+  <Segment padded {...rest}>
+    <Header as="h3">{title}</Header>
+    {children}
+  </Segment>
+);
 
-export default new Api(ethereumProvider);
+Section.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
+};
+
+export default Section;

@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import Api from '@parity/api';
+import React from 'react';
+import { shallow } from 'enzyme';
+import { shallowToJson } from 'enzyme-to-json';
 
-const ethereumProvider = window.ethereum;
+import Section from './Section';
 
-if (!ethereumProvider) {
-  throw new Error('Unable to locate EthereumProvider, object not attached');
-}
+test('should render correctly', () => {
+  const component = shallow(<Section title="Foo" />);
 
-export default new Api(ethereumProvider);
+  expect(shallowToJson(component)).toMatchSnapshot();
+});
